@@ -85,6 +85,8 @@ How can we go about making data tidy?
 
     -   pivtolonger can help when you want to take values within row, converts to row name, and populates new rows with values from columns
 
+-   tidyr!
+
 #### How to make data tidy!
 
 ```{dogs_longer <- dogs |>}
@@ -97,4 +99,13 @@ How can we go about making data tidy?
   tidyr::pivot_wider(names_from = variable, 
                      values_from = value)
 ## pulling from variable column, looking for every unique level, looks at what column those values were stored at and will use these to populate new rows
+```
+
+tidyr::separate
+
+```{starwars |>}
+  separate(col = name,
+           into = c ("first_name", "last_name"),
+           sep = " ")
+#separating into first and last name
 ```
