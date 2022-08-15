@@ -9,9 +9,92 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 ### Warm up
-```{r}
 
+Given the vector: "brown bear", "red bird", "yellow duck", "blue horse"
+
+Write code to recreate text of the first 3 pages in the book, "brown bear, brown bear, what do you see?"
+
+Should read:
+
+"brown bear, brown bear, what do you see? I see a red bird looking at me."
+
+"red bird, red bird, what do you see? I see a yellow duck looking at me."
+
+"yellow duck, yellow duck, what do you see? I see a blue horse looking at me."
+
+```{r}
+animals <- c("brown bear", "red bird", "yellow duck", "blue horse")
+
+book <- for (i in seq_along(animals)) {
+  print(paste0(animals[i], animals[i], ", what do you see? I see a ",
+               animals[i + 1], " looking at me."))
+}
+## this will result in a NA at the last line for [i +1]
 ```
 
+```{r}
+seq_along(animals) - 1
+# will just give back [0 1 2 3], 1 will be removed from each element
+```
+
+```{r}
+animals <- c("brown bear", "red bird", "yellow duck", "blue horse")
+
+book <- for (i in 1:3) {
+  print(paste0(animals[i], animals[i], ", what do you see? I see a ",
+               animals[i + 1], " looking at me."))
+}
+
+book
+```
+
+## Tidy data
+
+A predictable way of organizing data:
+
+-   Each variable is a column
+
+-   each observation is a row
+
+-   each cell contains a single value
+
+Tidy data is not related to R or tidyverse.
+
+Vocab:
+
+-   variable: a characteristic that is being measured, counted, or described with data (whale mass, car salinity, etc)
+
+-   observation: a single data point for which the measure, count or description of one or more variables is recorded. For example, if you are recording variables height, mass, and color of dragon, then each dragon is an observation
+
+-   value: the recorded measure, count, or description of a variable
+
+Data will not always be in a uniform fashion. We want to organize it into a tidy structure if it is unorganized
+
+-   columns as values
+
+    -   are column headers values of a variable? That is a clue its not tidy!
+
+-   multiple representations of one observation in the same row ((you should have one observation accounted for in one row!)
+
+How can we go about making data tidy?
+
+-   using pivotlonger & pivtowider functions!
+
+    -   pivotwider can help when you want to take values within column, converts to column name, and populates new columns with values from rows
+
+    -   pivtolonger can help when you want to take values within row, converts to row name, and populates new rows with values from columns
+
+#### How to make data tidy!
+
+```{dogs_longer <- dogs |>}
+  tidyr::pivot_longer(week_1:week_3,
+  names_to = week, 
+  values_to = miles)
+```
+
+```{planets_long <- planets |>}
+  tidyr::pivot_wider(names_from = variable, 
+                     values_from = value)
+## pulling from variable column, looking for every unique level, looks at what column those values were stored at and will use these to populate new rows
+```
